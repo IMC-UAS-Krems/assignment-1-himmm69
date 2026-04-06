@@ -1,17 +1,10 @@
-"""
-artists.py
-----------
-Implement the Artist class representing musicians and content creators.
 
-Classes to implement:
-  - Artist
-"""
 
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:  # pragma: no cover
+if TYPE_CHECKING: 
     from .tracks import Track
 
 

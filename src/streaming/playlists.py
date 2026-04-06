@@ -1,18 +1,10 @@
-"""
-playlists.py
-------------
-Implement playlist classes for organizing tracks.
 
-Classes to implement:
-  - Playlist
-    - CollaborativePlaylist
-"""
 
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:  # pragma: no cover
+if TYPE_CHECKING: 
     from .tracks import Track
     from .users import User
 
@@ -25,7 +17,7 @@ class Playlist:
         self.tracks: list[Track] = []
 
     def add_track(self, track: Track) -> None:
-        # dedupe by Track equality (track_id)
+        
         if track not in self.tracks:
             self.tracks.append(track)
 

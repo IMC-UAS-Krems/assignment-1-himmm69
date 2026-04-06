@@ -44,7 +44,6 @@ class StreamingPlatform:
 
     def record_session(self, session: ListeningSession) -> None:
         self._sessions.append(session)
-
         session.user.add_session(session)
 
     def get_track(self, track_id: str) -> Track | None:
@@ -179,7 +178,6 @@ class StreamingPlatform:
         }
 
     def users_who_completed_albums(self):
-        # Minimal implementation: for each user, check albums where they listened to all track_ids
         result = []
         for u in self.all_users():
             listened_ids = {s.track.track_id for s in u.sessions}

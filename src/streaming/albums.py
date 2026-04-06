@@ -1,11 +1,4 @@
-"""
-albums.py
----------
-Implement the Album class for collections of AlbumTrack objects.
 
-Classes to implement:
-  - Album
-"""
 
 from __future__ import annotations
 
@@ -13,7 +6,7 @@ from typing import TYPE_CHECKING
 
 from .artists import Artist
 
-if TYPE_CHECKING:  # pragma: no cover
+if TYPE_CHECKING:  
     from .tracks import AlbumTrack
 
 
@@ -28,10 +21,10 @@ class Album:
         self.tracks: list[AlbumTrack] = []
 
     def add_track(self, track: AlbumTrack) -> None:
-        # set back-reference
+       
         track.album = self
         self.tracks.append(track)
-        # keep ordered by track_number
+
         self.tracks.sort(key=lambda t: t.track_number)
 
     def track_ids(self) -> set[str]:

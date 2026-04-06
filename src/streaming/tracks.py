@@ -1,18 +1,4 @@
-"""
-tracks.py
----------
-Implement the class hierarchy for all playable content on the platform.
 
-Classes to implement:
-  - Track
-    - Song
-      - SingleRelease
-      - AlbumTrack
-    - Podcast
-      - InterviewEpisode
-      - NarrativeEpisode
-    - AudiobookTrack
-"""
 
 from __future__ import annotations
 
@@ -20,7 +6,7 @@ from typing import Any, TYPE_CHECKING
 
 from .artists import Artist
 
-if TYPE_CHECKING:  # pragma: no cover
+if TYPE_CHECKING:  
     from .albums import Album
 
 
