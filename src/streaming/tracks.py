@@ -112,6 +112,7 @@ class Podcast(Track):
         duration_seconds: int,
         genre: str,
         host: str = "",
+        description: str = "",
     ) -> None:
         super().__init__(
             track_id=track_id,
@@ -120,6 +121,7 @@ class Podcast(Track):
             genre=genre,
         )
         self.host = host
+        self.description = description
 
 
 class InterviewEpisode(Podcast):
@@ -150,8 +152,8 @@ class NarrativeEpisode(Podcast):
         duration_seconds: int,
         genre: str,
         host: str = "",
-        narrator: str = "",
-        series_name: str = "",
+        season: int = 0,
+        episode_number: int = 0,
     ) -> None:
         super().__init__(
             track_id=track_id,
@@ -160,8 +162,8 @@ class NarrativeEpisode(Podcast):
             genre=genre,
             host=host,
         )
-        self.narrator = narrator
-        self.series_name = series_name
+        self.season = season
+        self.episode_number = episode_number
 
 
 class AudiobookTrack(Track):
@@ -172,7 +174,7 @@ class AudiobookTrack(Track):
         duration_seconds: int,
         genre: str,
         author: str,
-        chapter_number: int,
+        narrator: str,
     ) -> None:
         super().__init__(
             track_id=track_id,
@@ -181,4 +183,4 @@ class AudiobookTrack(Track):
             genre=genre,
         )
         self.author = author
-        self.chapter_number = chapter_number
+        self.narrator = narrator

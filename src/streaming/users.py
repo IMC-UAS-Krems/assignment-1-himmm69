@@ -24,8 +24,8 @@ class User:
     def total_listening_minutes(self) -> float:
         return self.total_listening_seconds() / 60
 
-    def unique_tracks_listened(self) -> set[Track]:
-        return {s.track for s in self.sessions}
+    def unique_tracks_listened(self) -> set[str]:
+        return {s.track.track_id for s in self.sessions}
 
 
 class FreeUser(User):
@@ -58,14 +58,18 @@ class FamilyAccountUser(PremiumUser):
             age=age,
             subscription_start=subscription_start,
         )
-        self.members: list[FamilyMember] = []
+        self.sub_users: list[FamilyMember] = []
 
+    def add_sub_user(self, member: FamilyMember) -> None:
+        if member not in self.sub_users:
+            self.sub_users.append(member)
+
+    # keep backward-compatible name
     def add_member(self, member: FamilyMember) -> None:
-        if member not in self.members:
-            self.members.append(member)
+        self.add_sub_user(member)
 
-    def all_members(self) -> list[FamilyMember]:
-        return self.members
+    def all_members(self) -> list[User]:
+        return [self, *self.sub_users]
 
 
 class FamilyMember(User):
