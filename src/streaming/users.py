@@ -9,6 +9,8 @@ if TYPE_CHECKING:  # pragma: no cover
 
 
 class User:
+    """Base class representing a user on the streaming platform."""
+
     def __init__(self, user_id: str, name: str, age: int) -> None:
         self.user_id = user_id
         self.name = name
@@ -29,10 +31,16 @@ class User:
 
 
 class FreeUser(User):
-    pass
+    """A free-tier user with ad-supported listening."""
+
+    def __init__(self, user_id: str, name: str, age: int) -> None:
+        super().__init__(user_id=user_id, name=name, age=age)
+        self.ad_supported: bool = True
 
 
 class PremiumUser(User):
+    """A premium subscriber with enhanced features."""
+
     def __init__(
         self,
         user_id: str,
@@ -45,6 +53,8 @@ class PremiumUser(User):
 
 
 class FamilyAccountUser(PremiumUser):
+    """A family account holder who can add sub-users."""
+
     def __init__(
         self,
         user_id: str,
@@ -64,7 +74,6 @@ class FamilyAccountUser(PremiumUser):
         if member not in self.sub_users:
             self.sub_users.append(member)
 
-    # keep backward-compatible name
     def add_member(self, member: FamilyMember) -> None:
         self.add_sub_user(member)
 
@@ -73,6 +82,8 @@ class FamilyAccountUser(PremiumUser):
 
 
 class FamilyMember(User):
+    """A sub-user linked to a family account."""
+
     def __init__(
         self, user_id: str, name: str, age: int, parent: FamilyAccountUser
     ) -> None:

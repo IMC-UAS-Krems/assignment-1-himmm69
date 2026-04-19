@@ -1,16 +1,16 @@
-
-
 from __future__ import annotations
 
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:  
+if TYPE_CHECKING:
     from .tracks import Track
     from .users import User
 
 
 class ListeningSession:
+    """Represents a single listening session for a user."""
+
     def __init__(
         self,
         session_id: str,

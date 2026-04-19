@@ -17,6 +17,8 @@ if TYPE_CHECKING:
 
 
 class StreamingPlatform:
+    """Central platform managing users, tracks, artists, albums, playlists, and sessions."""
+
     def __init__(self, name: str) -> None:
         self.name = name
 
@@ -71,6 +73,7 @@ class StreamingPlatform:
         return self._sessions
 
     def total_listening_time_minutes(self, start: datetime, end: datetime) -> float:
+        """Q1: Total listening time in minutes within a time window."""
         total_seconds = 0
         for s in self._sessions:
             if start <= s.timestamp <= end:
@@ -78,6 +81,7 @@ class StreamingPlatform:
         return total_seconds / 60
 
     def avg_unique_tracks_per_premium_user(self, days: int = 30) -> float:
+        """Q2: Average unique tracks per PremiumUser in the last N days."""
         premium_users = [u for u in self._users.values() if type(u) is PremiumUser]
         if not premium_users:
             return 0.0
@@ -91,6 +95,7 @@ class StreamingPlatform:
         return sum(per_user_counts) / len(per_user_counts)
 
     def track_with_most_distinct_listeners(self):
+        """Q3: Return the track with the most unique listeners, or None if no sessions."""
         if not self._sessions:
             return None
 
@@ -101,6 +106,7 @@ class StreamingPlatform:
         return max(listeners_by_track.items(), key=lambda kv: len(kv[1]))[0]
 
     def avg_session_duration_by_user_type(self) -> list[tuple[str, float]]:
+        """Q4: Average session duration per user type, sorted descending."""
         durations: dict[str, list[int]] = defaultdict(list)
         for s in self._sessions:
             durations[type(s.user).__name__].append(s.duration_seconds)
@@ -115,6 +121,7 @@ class StreamingPlatform:
     def total_listening_time_underage_sub_users_minutes(
         self, age_threshold: int = 18
     ) -> float:
+        """Q5: Total listening time in minutes for FamilyMembers under age threshold."""
         total_seconds = 0
         for s in self._sessions:
             if isinstance(s.user, FamilyMember) and s.user.age < age_threshold:
@@ -122,6 +129,7 @@ class StreamingPlatform:
         return total_seconds / 60
 
     def top_artists_by_listening_time(self, n: int = 5):
+        """Q6: Top N artists by total listening time (minutes), Songs only."""
         minutes_by_artist: dict[object, int] = defaultdict(int)
         for s in self._sessions:
             if isinstance(s.track, Song):
@@ -134,6 +142,7 @@ class StreamingPlatform:
         return ranked[:n]
 
     def user_top_genre(self, user_id: str):
+        """Q7: Return (genre, percentage) for user's most listened genre, or None."""
         user = self.get_user(user_id)
         if user is None or not user.sessions:
             return None
@@ -149,6 +158,7 @@ class StreamingPlatform:
         return (top_genre, pct)
 
     def collaborative_playlists_with_many_artists(self, threshold: int = 3):
+        """Q8: CollaborativePlaylists with more than threshold distinct artists."""
         result = []
         for p in self._playlists:
             if p.__class__.__name__ != "CollaborativePlaylist":
@@ -159,6 +169,7 @@ class StreamingPlatform:
         return result
 
     def avg_tracks_per_playlist_type(self) -> dict[str, float]:
+        """Q9: Average tracks per playlist type."""
         total_playlist = 0
         count_playlist = 0
         total_collab = 0
@@ -178,6 +189,7 @@ class StreamingPlatform:
         }
 
     def users_who_completed_albums(self):
+        """Q10: Return list of (User, [album_titles]) for users who listened to full albums."""
         result = []
         for u in self.all_users():
             listened_ids = {s.track.track_id for s in u.sessions}

@@ -1,16 +1,16 @@
-
-
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
 from .artists import Artist
 
-if TYPE_CHECKING:  
+if TYPE_CHECKING:
     from .tracks import AlbumTrack
 
 
 class Album:
+    """Represents a music album containing multiple tracks."""
+
     def __init__(
         self, album_id: str, title: str, artist: Artist, release_year: int
     ) -> None:
@@ -21,10 +21,8 @@ class Album:
         self.tracks: list[AlbumTrack] = []
 
     def add_track(self, track: AlbumTrack) -> None:
-       
         track.album = self
         self.tracks.append(track)
-
         self.tracks.sort(key=lambda t: t.track_number)
 
     def track_ids(self) -> set[str]:

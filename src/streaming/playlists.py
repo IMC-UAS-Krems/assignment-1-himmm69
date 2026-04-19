@@ -1,15 +1,15 @@
-
-
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-if TYPE_CHECKING: 
+if TYPE_CHECKING:
     from .tracks import Track
     from .users import User
 
 
 class Playlist:
+    """A collection of tracks curated by a user."""
+
     def __init__(self, playlist_id: str, name: str, owner: User) -> None:
         self.playlist_id = playlist_id
         self.name = name
@@ -17,7 +17,6 @@ class Playlist:
         self.tracks: list[Track] = []
 
     def add_track(self, track: Track) -> None:
-        
         if track not in self.tracks:
             self.tracks.append(track)
 
@@ -29,9 +28,10 @@ class Playlist:
 
 
 class CollaborativePlaylist(Playlist):
+    """A playlist that allows multiple contributors to add tracks."""
+
     def __init__(self, playlist_id: str, name: str, owner: User) -> None:
         super().__init__(playlist_id=playlist_id, name=name, owner=owner)
-        # owner is always a contributor
         self.contributors: list[User] = [owner]
 
     def add_contributor(self, user: User) -> None:
@@ -39,7 +39,7 @@ class CollaborativePlaylist(Playlist):
             self.contributors.append(user)
 
     def remove_contributor(self, user: User) -> None:
-        # never remove owner
+        # Owner cannot be removed
         if user == self.owner:
             return
         if user in self.contributors:

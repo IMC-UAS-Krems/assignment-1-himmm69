@@ -1,16 +1,16 @@
-
-
 from __future__ import annotations
 
 from typing import Any, TYPE_CHECKING
 
 from .artists import Artist
 
-if TYPE_CHECKING:  
+if TYPE_CHECKING:
     from .albums import Album
 
 
 class Track:
+    """Base class for all playable content."""
+
     def __init__(
         self, track_id: str, title: str, duration_seconds: int, genre: str
     ) -> None:
